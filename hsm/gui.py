@@ -111,7 +111,7 @@ class MainWindow(Gtk.ApplicationWindow):
 
         # --- diseño
         g = self._group(box, "Diseño (stencil)", expanded=True)
-        self.design_group = g.get_parent()
+        self.design_group = self._last_expander
         self._spin(g, 0, "Ancho final (mm)", ("ancho_mm",), 50, 20000, 10, 0)
         self._spin(g, 1, "Alto final (mm)", ("alto_mm",), 50, 20000, 10, 0)
         self._spin(g, 2, "Distancia de observación (mm)", ("distancia_observacion_mm",), 500, 100000, 500, 0)
@@ -150,7 +150,7 @@ class MainWindow(Gtk.ApplicationWindow):
                    -0.3, 0.6, 0.01, 2)
 
         g = self._group(box, "Sello TPU", expanded=False)
-        self.stamp_group = g.get_parent()
+        self.stamp_group = self._last_expander
         self._dropdown(g, 0, "Fuente", ("sello", "fuente"), [("chart", "Carta de parches"), ("photo", "Foto")])
         self._spin(g, 1, "Lado del sello (mm)", ("sello", "lado_mm"), 20, 200, 1, 0)
         self._spin(g, 2, "Paso (mm)", ("sello", "paso_mm"), 1.0, 5.0, 0.1, 1)
@@ -195,6 +195,7 @@ class MainWindow(Gtk.ApplicationWindow):
         grid.set_margin_top(4)
         exp.set_child(grid)
         parent.append(exp)
+        self._last_expander = exp  # get_parent() del grid no sirve: es None si el grupo está plegado
         return grid
 
     def _spin(self, grid, row, label, path, lo, hi, step, digits):

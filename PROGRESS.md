@@ -26,6 +26,8 @@ Primera versión publicada: núcleo, CLI y GUI GTK4 escritos y 23 tests en verde
 - [x] README, `requirements.txt`, `pyproject.toml`, `.gitignore`; commit inicial y push a `main`
 
 ## Latest Blockers/Discoveries
+- **Primera ejecución real de la GUI (2026-10-30):** `AttributeError: 'NoneType' ... set_visible` en `_update_visibility`: `grid.get_parent()` es `None` en un `Gtk.Expander` plegado (y no es el expander en uno abierto). Corregido guardando el `Expander`. Los tests con `gi` simulado no podían detectarlo.
+- **Entorno del usuario:** el venv debe crearse con `/usr/bin/python3 -m venv --system-site-packages` (Python 3.13 del sistema); con otro Python (3.12 de pyenv/uv) `gi` no se ve.
 - **Triangulación lenta:** `trimesh.creation.extrude_polygon` (earcut) tardaba ~33–43 s por plancha de ~10 000 agujeros y el anillo del marco salía no estanco. Se reemplazó por `manifold3d` (CrossSection + extrusión por bandas de 25 mm + unión): ~5–10 s por plancha, malla estanca y de un solo cuerpo (verificado en 3 planchas de 250×250 mm).
 - **Pared 1×3 m a 10 m:** el informe da 65 baldosas, 260 stencils, 266–533 h y ≈7,6 kg de PP (estimación del plan, a medir en la Fase 1b).
 - **Sin GTK4 en el entorno de desarrollo:** `gi` está compilado para Python 3.12 y no hay typelib de Gtk 4.0; la GUI no se pudo ejecutar acá. El usuario interrumpió el intento de `apt-get install`, no se reintentó.
