@@ -1,0 +1,8 @@
+numpy
+scipy
+pillow
+shapely>=2
+trimesh
+mapbox-earcut
+manifold3d
+# GUI: PyGObject + GTK4 vienen del sistema (ver README), no de pip.
